@@ -1,4 +1,4 @@
-# self-evolving-agents
+# [self-evolving-agents](https://arxiv.org/pdf/2507.21046)
 
 [DSPy](https://github.com/stanfordnlp/dspy) 
 
