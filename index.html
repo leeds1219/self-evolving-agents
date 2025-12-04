@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="A Recurrent Compression Approach for Efficient Long-form Context and Query Dependent Modeling in LLMs">
+  <meta name="keywords" content="ReSCORE, label-free, RAG">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReSCORE: Label-free Iterative Retriever Training for Multi-hop Question Answering with Relevance-Consistency Supervision</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.png"> 
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+  <!-- KaTex -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/contrib/auto-render.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: "$$", right: "$$", display: true},
+          {left: "$", right: "$", display: false}
+        ]
+      });
+    });
+  </script>
+  <!-- KaTex -->
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">ReSCORE: Label-free Iterative Retriever Training for Multi-hop Question Answering with Relevance-Consistency Supervision</h1>
+          <div class="is-size-3 publication-authors">
+            <img src="./static/images/acl-logo.png" alt="ACL Logo" style="height: 40px; vertical-align: middle;">
+            <b>ACL 2025</b>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://leeds1219.github.io/">Dosung Lee</a><sup>1,*</sup>,</span>
+            <span class="author-block"><a href="https://owj0421.github.io/">Wonjun Oh</a><sup>1,*</sup>,</span>
+            <span class="author-block"><a href="https://bykimby.github.io/">Boyoung Kim</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://github.com/EuroMinyoung186">Minyoung Kim</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="http://www.mathcs.richmond.edu/~jpark/">Joonsuk Park</a><sup>2,3,4,&dagger;</sup>,</span>
+            <span class="author-block">
+              <a href="https://phseo.github.io/">Paul Hongsuck Seo</a><sup>1,&dagger;</sup>,</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Korea University,</span>
+            <span class="author-block"><sup>2</sup>Naver AI</span>
+            <span class="author-block"><sup>2</sup>Naver Cloud</span>
+            <span class="author-block"><sup>2</sup>University of Richmond</span>
+            <br>
+            <span class="eql-cntrb"><small><sup>*</sup>Equal contribution</small></span>
+            <span class="eql-cntrb"><small><sup>&dagger;</sup>Co-corresponding Authors</small></span>
+          </div>
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <a href="https://www.korea.edu/sites/en/index.do" target="_blank">
+              <img src="./static/images/korea_university.png" alt="korea" style="height: 36px;">&nbsp;&nbsp;&nbsp;
+            </a>
+            <a href="https://miil.korea.ac.kr/" target="_blank">
+              <img src="./static/images/MIIL_full_logo.svg" alt="miil" style="height: 36px;">&nbsp;&nbsp;&nbsp;
+            </a>
+            <a href="https://naver-career.gitbook.io/en/teams/clova-cic/ai-lab" target="_blank">
+              <img src="./static/images/naver_ai.png" alt="naver ai" style="height: 36px;">&nbsp;&nbsp;&nbsp;
+            </a>
+            <a href="https://naver-career.gitbook.io/kr/service/clova" target="_blank">
+              <img src="./static/images/naver_cloud.png" alt="naver cloud" style="height: 36px;">&nbsp;&nbsp;&nbsp;
+            </a>
+            <a href="https://www.richmond.edu/" target="_blank">
+              <img src="./static/images/richmond_university.svg" alt="richmond" style="height: 36px;">&nbsp;&nbsp;&nbsp;
+            </a>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2505.21250"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2505.21250"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/leeds1219/ReSCORE"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Multi-hop question answering (MHQA) involves reasoning across multiple documents to answer complex questions. 
+            Dense retrievers typically outperform sparse methods like BM25 by leveraging semantic embeddings; 
+            however, they require labeled query-document pairs for fine-tuning. 
+            This poses a significant challenge in MHQA due to the high variability of queries---(reformulated) questions---throughout the reasoning steps. 
+            To overcome this limitation, we introduce Retriever Supervision with Consistency and Relevance (ReSCORE), 
+            a novel method for training dense retrievers for MHQA without labeled documents. 
+            ReSCORE leverages large language models to capture each document's relevance to the question and 
+            consistency with the correct answer and use them to train a retriever within an iterative question-answering framework. 
+            Experiments on three MHQA benchmarks demonstrate the effectiveness of ReSCORE, 
+            with significant improvements in retrieval, and in turn, the state-of-the-art MHQA performance.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+  
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Preliminary</h2>
+        <div class="content has-text-justified">
+         <p>
+           Directly mapping complex problems ($x$) to their final solutions ($y$) poses a significant challenge, often requiring an intermediate reasoning step—a latent variable ($z$)—to bridge the gap. 
+           However, explicit supervision for these intermediate thoughts is rarely available. 
+           Instead of relying on ground-truth reasoning labels, our approach leverages the model's confidence in the final answer ($y$) as an intrinsic reward signal. 
+           Through this approach, the model learns to autonomously generate the most effective intermediate steps ($z$) that maximize downstream solvability. 
+           </p>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Method -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Method</h2>
+        <img src="./static/images/rescore.png" class="center"/>
+        <div class="content has-text-justified">
+          <p>
+            <b>Overview of ReSCORE</b>
+            At each iteration within a iterative RAG process, the retriever receives gradients from 
+            the KL-Divergence loss of the retrieval distribution against the pseudo-GT distribution, 
+            which is derived from the LLM probabilities of question and answer given each document with normalization. 
+            The number of iterations is dynamically determined by the LLM and 
+            the process ends if the LLM predicts an answer which is not “unknown”. 
+            The red dashed lines represents gradient flows for the retriever.
+          </p>
+          <p>
+            In order to identify which documents are relevant to the input question when labels are unavailable, 
+            we measure the distribution \(Q_\text{LM}^{(i)}(d_j^{(i)} \mid q^{(i)})\), which represents the likelihood of 
+            retrieving a document \(d_j^{(i)}\) given a query \(q^{(i)}\) at iteration \(i\).
+<!--             To achieve this, we leverage an LLM inspired by <a href="https://arxiv.org/abs/2208.03299" target="_blank">Izacard et al. (2023)</a>, 
+            which captures the intuition that \(Q_\text{LM}^{(i)}(d_j^{(i)} \mid q^{(i)})\) for a document \(d_j^{(i)}\) is proportional to the probability 
+            that the LLM generates both the question \(q\) and the corresponding answer \(a\) given \(d_j^{(i)}\). -->
+            Formally, expressed as:
+            \[
+            Q_{\text{LM}}^{(i)}(d_{j}^{(i)} \mid q) \propto P_{\text{LM}}^{(i)}(a, q \mid d_{j}^{(i)}) 
+            \]
+            \[
+            = P_{\text{LM}}^{(i)}(q \mid d_{j}^{(i)}) \cdot P_{\text{LM}}^{(i)}(a \mid q, d_{j}^{(i)})
+            \]
+            where \( P_\text{LM} \) denotes the probability of a token sequence as computed by the LLM.
+          </p>
+<!--           <img src="./static/images/pseudoGT.png" class="center"/> -->
+          <p>
+            While \( P_{\text{LM}}^{(i)}(a \mid q, d_j^{(i)}) \) aligns more directly with the QA training objective, it often fails to fully capture a document’s relevance to a query. 
+            This is because the language model might assign high scores based on superficial word alignments, even when the document is irrelevant. 
+            For example, a document titled "Paris" might score higher than more relevant documents for a question about Acura Legend’s history, simply because it contains the correct year, "1981", 
+            which confuses the model despite the document's irrelevance.
+            On the other hand, \( P_{\text{LM}}^{(i)}(a, q \mid d_j^{(i)}) \) incorporates the term \( P_{\text{LM}}^{(i)}(q \mid d_j^{(i)}) \), which measures a document’s relevance to the query. 
+            This helps avoid issues like the one described above, ensuring that documents with better contextual relevance are preferred. 
+<!--             Furthermore, relevance alone does not guarantee that a document contains sufficient information to answer the question, as it may still lack consistency with the correct answer. -->
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Results</h2>
+        <!--<embed src="./static/pdf/result1.pdf" type="./static/images/result1.pdf" width="100%" height="600px"/> -->
+        <div style="text-align: center;">
+          <img src="./static/images/result_1.png" class="center" style="width: 90%;" />
+        </div>
+        <div class="content has-text-justified">
+          <p>
+            <b>Comparisons to State-of-the-Art Iterative RAG Frameworks on three MHQA benchmarks</b>
+            EM and F1 scores are measured on each dataset. † Scores are sourced from (Wang et al., 2024). 
+            ‡ Scores are reproduced using the official codes. 
+            ‡‡ Scores are sourced from the original paper (Jeong et al., 2024).
+          </p>
+        </div>
+         <img src="./static/images/result_2.png" class="center"/>
+        <div class="content has-text-justified">
+          <p>
+            <b>Comparison of GT and Pseudo-GT Labels on All Relevant Document Retrieval</b>
+            The y-axis shows the proportion of questions for which all relevant documents were found, 
+            which are all needed to correctly answer a given complex question. 
+            Pseudo-GT labels lead to improved performance as the number of iterations increases.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@inproceedings{lee-etal-2025-rescore,
+    title = "{R}e{SCORE}: Label-free Iterative Retriever Training for Multi-hop Question Answering with Relevance-Consistency Supervision",
+    author = "Lee, Dosung  and
+      Oh, Wonjun  and
+      Kim, Boyoung  and
+      Kim, Minyoung  and
+      Park, Joonsuk  and
+      Seo, Paul Hongsuck",
+    editor = "Che, Wanxiang  and
+      Nabende, Joyce  and
+      Shutova, Ekaterina  and
+      Pilehvar, Mohammad Taher",
+    booktitle = "Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = jul,
+    year = "2025",
+    address = "Vienna, Austria",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2025.acl-long.16/",
+    doi = "10.18653/v1/2025.acl-long.16",
+    pages = "341--359",
+    ISBN = "979-8-89176-251-0",
+    abstract = "Multi-hop question answering (MHQA) involves reasoning across multiple documents to answer complex questions. Dense retrievers typically outperform sparse methods like BM25 by leveraging semantic embeddings in many tasks; however, they require labeled query-document pairs for fine-tuning, which poses a significant challenge in MHQA due to the complexity of the reasoning steps. To overcome this limitation, we introduce Retriever Supervision with Consistency and Relevance (ReSCORE), a novel method for training dense retrievers for MHQA without the need for labeled documents. ReSCORE leverages large language models to measure document-question relevance with answer consistency and utilizes this information to train a retriever within an iterative question-answering framework. Evaluated on three MHQA benchmarks, our extensive experiments demonstrate the effectiveness of ReSCORE, with significant improvements in retrieval performance that consequently lead to state-of-the-art Exact Match and F1 scores for MHQA."
+}
+</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
