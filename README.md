@@ -32,11 +32,7 @@ qa = dspy.Predict("question-> answer")
 qa(question="Where is Guaran´ ı spoken?")
 # Out: Prediction(answer=’Guaran´ ı is spoken mainly in South America.’)
 ```
-```
-query_gen = dspy.Predict(GenerateSearchQuery)
- query_gen(context="Language typology")
- # Out: Prediction(question=’What are the main types of language classification?’, query=’"language classification" OR "language typology"-wikipedia’)
- ```
+or
 ```
 class GenerateSearchQuery(dspy.Signature):
  """Write a simple search query that will help answer a complex question."""
