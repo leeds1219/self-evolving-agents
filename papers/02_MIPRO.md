@@ -43,5 +43,5 @@ Prompting: You edit the string "You are a helpful assistant..." manually.
 LM Program: You write the code above, and MIPRO mathematically finds the best "You are a helpful assistant..." string for you.
 
 ### How can we optimize?
-Maximize the downstream metric! kind of similar to [ReSCORE](https://leeds1219.github.io/ReSCORE/).
+Maximize the downstream evaluation metric!
 
