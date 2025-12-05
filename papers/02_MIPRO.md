@@ -86,9 +86,9 @@ The high-level goal is to find a total assignment V → S that optimizes Φ with
 
 ![Task](figures/Bootstrap_Random_Search.png)
 
-In Step1, demonstrations are bootstrapped by running training inputs through the program Φ and keeping traces that produce sufficiently high scoring outputs, as judged by metric µ. 
+In Step 1, demonstrations are bootstrapped by running training inputs through the program Φ and keeping traces that produce sufficiently high scoring outputs, as judged by metric µ. 
 
-In Step2, these bootstrapped demonstration sets are searched over using random search, and the most performant set is returned.
+In Step 2, these bootstrapped demonstration sets are searched over using random search, and the most performant set is returned.
 
 ![Task](figures/Module_Level_OPRO.png)
 
