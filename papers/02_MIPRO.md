@@ -59,7 +59,7 @@ M.Initialize(D, θ) ▷ Initialize optimizer using the data
 for k ← 1 to I do
     (V → S_k) ←M.Propose(θ) ▷Generate proposal
     D_k ←{(x_j,x′_j) ∼ D}^B_j=1 ▷ Sample size-B batch
-    σ ← 1 B (x,x′)∈D_k µ(Φ_{V→S_k} (x),x′) ▷ Validate updated program
+    σ ← 1/B Sum_{(x,x′)∈D_k} µ(Φ_{V→S_k}(x),x′) ▷ Validate updated program
     M.Update(V → S_k, σ) ▷Update optimizer based on the observed validation score
 end for
 (V → S_k) ←M.ExtractOptimizedSets()
