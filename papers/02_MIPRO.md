@@ -91,11 +91,29 @@ In Step 1, demonstrations are bootstrapped by running training inputs through th
 
 In Step 2, these bootstrapped demonstration sets are searched over using random search, and the most performant set is returned.
 
+> **Limitations**
+> Inability to Tune Instructions: focuses solely on selecting demonstrations and cannot optimize or tune the free-form instructions for multi-prompt pipelines.
+
 #### The Module-Level [OPRO](https://arxiv.org/abs/2309.03409) optimizer
 ![Task](figures/Module_Level_OPRO.png)
 A history of module-level instructions and program score pairs are given as  input to the proposer LM to generate a new instruction for each module.
 These are then evaluated in the program, and the resulting score is added back with each module’s instruction to the module’s history.
-The process repeats for I iterations
+The process repeats for I iterations.
+
+> **Limitations**
+> Credit Assignment Assumptions: It relies on the strong assumption that the overall program score is a sufficient proxy for an individual instruction's quality, effectively assuming equal credit assignment across modules.
+> Independence Assumption: It assumes there is no inter-assignment dependency between different modules, optimizing them as if they are independent.
 
 #### Multi-prompt Instruction PRoposal Optimizer
 ![Task](figures/MIPRO.png)
+
+Joint Optimization (Instruction and Demonstration)
+
+Bayesian Optimization (Surrogate Model: Tree-structured Parzen Estimator)
+
+Grounding (Dataset Summary)
+
+
+
+> **Limitations**
+> Dependency on Seed Prompts: Like the other optimizers, it has a restricted ability to infer the rules governing complex tasks without a handwritten seed prompt.
