@@ -48,7 +48,7 @@ LM Program: You write the code above, and MIPRO mathematically finds the best "Y
 Maximize the downstream evaluation metric!
 
 ### Problem formalization
-[Task](papers/figures/Optimization_Problem.png)
+![Task](papers/figures/Optimization_Problem.png)
 ```
 Algorithm 1 Optimize Φ with optimizer M
 Input: Optimizer M, Initial Program Φ, Metric µ
