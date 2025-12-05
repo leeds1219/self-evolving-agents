@@ -65,3 +65,19 @@ end for
 (V → S_k) ←M.ExtractOptimizedSets()
 return Φ_{V→S}
 ```
+Consider an LM program Φ consisting of m modules, each using some LM.
+Each module i is defined by a prompt template p_i that contains a set of variables (open slots) v.
+Let V be the set of all variables used by prompt templates for Φ, and let V → S be a total assignment of variables V to strings S.
+Φ_{V→S} is the specified program.
+The high-level goal is to find a total assignment V → S that optimizes Φ with respect to metric µ.
+
+(i) each string s ∈ S can take on any value
+
+(ii) the metric µ provides supervision only at the level of the entire task, so every variable in V is latent
+
+(iii) assume no access to the gradients or embeddings of the LMs involved, which rules out many RL and prompttuning algorithms
+
+(iv) system designers generally have small datasets D
+
+(v) small budgets of LM calls for evaluating Φ
+
