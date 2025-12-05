@@ -1,7 +1,7 @@
 # [Self-Evolving-Agents](https://arxiv.org/pdf/2507.21046)
 
-## [DSPy](papers/DSPy.md) 
+## [DSPy](papers/01_DSPy.md) 
 
-## [MIPRO](papers/MIPRO.md)
+## [MIPRO](papers/02_MIPRO.md)
 
-## [GEPA](papers/GEPA,md)
+## [GEPA](papers/03_GEPA,md)
