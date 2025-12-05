@@ -4,4 +4,4 @@
 
 ## [MIPRO](papers/02_MIPRO.md)
 
-## [GEPA](papers/03_GEPA,md)
+## [GEPA](papers/03_GEPA.md)
