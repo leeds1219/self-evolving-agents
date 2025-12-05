@@ -1,7 +1,7 @@
 # [Self-Evolving-Agents](https://arxiv.org/pdf/2507.21046)
 
 ## [DSPy](https://github.com/stanfordnlp/dspy) 
-DSPy (The authors do not provide what the abbreviation is, so my guess is "D"eclarative "S"elf-improving "Py"thon) is a program.
+DSPy (The authors do not provide what the abbreviation is, so my guess is "D"eclarative "S"elf-improving "Py"thon) is a programming model.
 DSPy objective is to replace the manual instruction prompts for LLMs.
 DSPy replace manual instruction prompts with a short declarative spec.
 
