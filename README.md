@@ -1,7 +1,7 @@
 # [Self-Evolving-Agents](https://arxiv.org/pdf/2507.21046)
 
-[DSPy](https://github.com/stanfordnlp/dspy) 
+## [DSPy](https://github.com/stanfordnlp/dspy) 
 
-[MIPRO](https://dspy.ai/)
+## [MIPRO](https://dspy.ai/)
 
-[GEPA](https://github.com/gepa-ai/gepa-artifact)
+## [GEPA](https://github.com/gepa-ai/gepa-artifact)
