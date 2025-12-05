@@ -56,12 +56,12 @@ Input: Minibatch size B, Proposer Hyperparameters θ
 Output: Optimized version of Φ
 
 M.Initialize(D, θ) ▷ Initialize optimizer using the data
-for k ← 1toI do
-    (V → Sk) ←M.Propose(θ) ▷Generate proposal
-    Dk ←{(xj,x′ j) ∼ D}B j=1 ▷ Sample size-B batch
-    σ ← 1 B (x,x′)∈Dk µ(ΦV→Sk (x),x′) ▷ Validate updated program
-    M.Update(V → Sk, σ) ▷Update optimizer based on the observed validation score
+for k ← 1 to I do
+    (V → S_k) ←M.Propose(θ) ▷Generate proposal
+    D_k ←{(x_j,x′_j) ∼ D}^B_j=1 ▷ Sample size-B batch
+    σ ← 1 B (x,x′)∈D_k µ(Φ_{V→S_k} (x),x′) ▷ Validate updated program
+    M.Update(V → S_k, σ) ▷Update optimizer based on the observed validation score
 end for
-(V → Sk) ←M.ExtractOptimizedSets()
-return ΦV→S
+(V → S_k) ←M.ExtractOptimizedSets()
+return Φ_{V→S}
 ```
