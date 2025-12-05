@@ -46,3 +46,32 @@ LM Program: You write the code above, and MIPRO mathematically finds the best "Y
 ### How can we optimize?
 Maximize the downstream evaluation metric!
 
+### Problem formalization
+```
+Algorithm 1 Optimize Φ with optimizer M
+ 1: Input: Optimizer M, Initial Program Φ, Metric µ
+ 2: Input: Max Iterations I, Training Data D
+ 3: Input: Minibatch size B, Proposer Hyperparameters θ
+ 4: Output: Optimized version of Φ
+ 5:
+ 6: M.Initialize(D, θ) ▷ Initialize optimizer using the data
+ 7: for k ← 1toI do
+ 8:
+ (V → Sk) ←M.Propose(θ) ▷Generate proposal
+ Dk ←{(xj,x′
+ j) ∼ D}B
+ j=1 ▷ Sample size-B batch
+ 9:
+ 10:
+ 11:
+ σ ← 1
+ B (x,x′)∈Dk 
+µ(ΦV→Sk
+ (x),x′) ▷ Validate
+ updated program
+ M.Update(V → Sk, σ) ▷Update optimizer based
+ on the observed validation score
+ 12: end for
+ 13: (V → Sk) ←M.ExtractOptimizedSets()
+ 14: return ΦV→S
+```
