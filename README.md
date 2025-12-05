@@ -2,9 +2,7 @@
 
 ## [DSPy](https://github.com/stanfordnlp/dspy) 
 DSPy (The authors do not provide what the abbreviation is) is a programming model.
-
 DSPy objective is to replace the manual instruction prompts for LLMs.
-
 DSPy replace manual instruction prompts with a short declarative spec.
 
 Imperative vs declarative spec
@@ -26,6 +24,8 @@ Control Flow (How to do it step-by-step)
     state: present  # <--- This is the Declarative Spec
 ```
 Logic / Outcome (What to achieve)
+
+The paper proposes a DSPy signature, which is a tuple of _input_fields_ and _output_fields_ with an optional _instruction_.
 
 ## [MIPRO](https://dspy.ai/)
 
