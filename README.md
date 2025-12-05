@@ -5,7 +5,7 @@ DSPy (The authors do not provide what the abbreviation is, so my guess is "D"ecl
 DSPy objective is to replace the manual instruction prompts for LLMs.
 DSPy replace manual instruction prompts with a short declarative spec.
 
-Imperative vs declarative spec
+### Imperative vs declarative spec
 ```
 # 1. Update package list
 apt-get update
@@ -25,6 +25,7 @@ Control Flow (How to do it step-by-step)
 ```
 Logic / Outcome (What to achieve)
 
+### DSPy signature
 The paper proposes a DSPy signature, which is a tuple of _input_fields_ and _output_fields_ with an optional _instruction_.
 
 ## [MIPRO](https://dspy.ai/)
