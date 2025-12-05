@@ -84,12 +84,18 @@ The high-level goal is to find a total assignment V → S that optimizes Φ with
 
 ### Designing LM Program Optimizers
 
+#### Bootstrap Random Search
 ![Task](figures/Bootstrap_Random_Search.png)
 
 In Step 1, demonstrations are bootstrapped by running training inputs through the program Φ and keeping traces that produce sufficiently high scoring outputs, as judged by metric µ. 
 
 In Step 2, these bootstrapped demonstration sets are searched over using random search, and the most performant set is returned.
 
+#### The Module-Level [OPRO](https://arxiv.org/abs/2309.03409) optimizer
 ![Task](figures/Module_Level_OPRO.png)
+A history of module-level instructions and program score pairs are given as  input to the proposer LM to generate a new instruction for each module.
+These are then evaluated in the program, and the resulting score is added back with each module’s instruction to the module’s history.
+The process repeats for I iterations
 
+#### Multi-prompt Instruction PRoposal Optimizer
 ![Task](figures/MIPRO.png)
