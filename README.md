@@ -7,7 +7,7 @@ DSPy objective is to replace the manual instruction prompts for LLMs.
 
 DSPy replace manual instruction prompts with a short declarative spec.
 
-Imperative vs Declarative spec
+Imperative vs declarative spec
 ```
 # 1. Update package list
 apt-get update
