@@ -2,6 +2,6 @@
 
 ## [DSPy](papers/DSPy.md) 
 
-## [MIPRO](https://dspy.ai/)
+## [MIPRO](papers/MIPRO.md)
 
-## [GEPA](https://github.com/gepa-ai/gepa-artifact)
+## [GEPA](papers/GEPA,md)
