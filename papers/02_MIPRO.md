@@ -107,13 +107,56 @@ The process repeats for I iterations.
 #### Multi-prompt Instruction PRoposal Optimizer
 ![Task](figures/MIPRO.png)
 
+In Step 1, demonstrations are bootstrapped using the same process from Step 1 of Bootstrap Random Search. 
+
+In Step 2, instructions are proposed using the grounding strategy described in [The Proposal Problem](). 
+
+In Step 3, Bayesian optimization is used to find the best-performing combination of instruction and demonstration candidates.
+
+
+**1. The Core Problem: Credit Assignment**
+
+In multi-stage pipelines (e.g., `Retrieve -> Summarize -> Answer`), manual prompting fails because it is difficult to determine which stage caused an error.
+* *Did the retrieval fail?*
+* *Did the reasoning fail?*
+* *Did the formatting fail?*
+
+MIPRO solves this by optimizing the **entire pipeline simultaneously** rather than optimizing modules in isolation.
+
+---
+
+**2. The Algorithm: Two-Stage Process**
+
+MIPRO operates similarly to **AutoML** (Automated Machine Learning), but for prompts.
+
+**Phase 1: Proposal (Exploration)**
+
+MIPRO first generates a "search space" of potential candidates.
+
+1.  **Bootstrapping:** * It runs the program on a small training set.
+    * It collects "traces" (input/output pairs) of successful runs to use as potential few-shot examples.
+2.  **Instruction Generation (The Proposer):**
+    * It looks at the code and the raw data.
+    * It uses a powerful "Meta-LLM" to generate $N$ distinct instruction variations for *every* module (e.g., "Be concise", "Think step-by-step", "Act as an expert").
+    * **Result:** A generated menu of options (Instructions + Example Sets) for every step in the pipeline.
+
+**Phase 2: Optimization (Bayesian Search)**
+
+MIPRO then searches for the best combination of options.
+
+1.  **Combinatorial Explosion:** * If Module A has 10 options and Module B has 10 options, there are 100 possible programs.
+2.  **Bayesian Surrogate Model (TPE):**
+    * Instead of running every combination (expensive), it uses a **Tree-structured Parzen Estimator (TPE)**.
+    * It samples random combinations initially.
+    * It learns which instructions correlate with higher scores.
+    * It effectively "backpropagates" the final metric to select the specific instruction/example pair for each module that maximizes the *total* system performance.
+
+
 Joint Optimization (Instruction and Demonstration)
 
-Bayesian Optimization (Surrogate Model: Tree-structured Parzen Estimator)
+Bayesian Optimization (Surrogate Model: Tree-structured Parzen Estimator, robustnessto noise)
 
 Grounding (Dataset Summary)
-
-
 
 > **Limitations**
 > Dependency on Seed Prompts: Like the other optimizers, it has a restricted ability to infer the rules governing complex tasks without a handwritten seed prompt.
