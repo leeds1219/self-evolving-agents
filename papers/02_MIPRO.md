@@ -117,3 +117,6 @@ Grounding (Dataset Summary)
 
 > **Limitations**
 > Dependency on Seed Prompts: Like the other optimizers, it has a restricted ability to infer the rules governing complex tasks without a handwritten seed prompt.
+> Reward Hacking:
+> Black-box Prompts:
+> Search Space Explosion: 
