@@ -36,7 +36,8 @@ optimized_program = MIPRO(
 ).compile()
 ```
 
-### Key Difference
+**Key Difference**
+
 Prompting: You edit the string "You are a helpful assistant..." manually.
 
 LM Program: You write the code above, and MIPRO mathematically finds the best "You are a helpful assistant..." string for you.
