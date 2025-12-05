@@ -2,6 +2,7 @@
 
 ## [MIPRO](https://dspy.ai/) 
 Optimizing Instructions and Demonstrations for Multi-Stage Language Model Programs. 
+The authors seek to efficiently optimize prompts in arbitrary LM programs, especially those with multiple stages.
 
 ### **What is Language Model Program?**
 
