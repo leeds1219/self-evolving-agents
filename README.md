@@ -27,7 +27,11 @@ Logic / Outcome (What to achieve)
 
 ### DSPy signature
 The paper proposes a DSPy signature, which is a tuple of _input_fields_ and _output_fields_ with an optional _instruction_.
-
+```
+qa = dspy.Predict("question-> answer")
+qa(question="Where is Guaran´ ı spoken?")
+# Out: Prediction(answer=’Guaran´ ı is spoken mainly in South America.’)
+```
 ## [MIPRO](https://dspy.ai/)
 
 ## [GEPA](https://github.com/gepa-ai/gepa-artifact)
