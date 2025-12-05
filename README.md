@@ -25,13 +25,26 @@ Control Flow (How to do it step-by-step)
 ```
 Logic / Outcome (What to achieve)
 
-### DSPy signature
+### DSPy signatures
 The paper proposes a DSPy signature, which is a tuple of _input_fields_ and _output_fields_ with an optional _instruction_.
 ```
 qa = dspy.Predict("question-> answer")
 qa(question="Where is Guaran´ ı spoken?")
 # Out: Prediction(answer=’Guaran´ ı is spoken mainly in South America.’)
 ```
+```
+query_gen = dspy.Predict(GenerateSearchQuery)
+ query_gen(context="Language typology")
+ # Out: Prediction(question=’What are the main types of language classification?’, query=’"language classification" OR "language typology"-wikipedia’)
+ ```
+```
+class GenerateSearchQuery(dspy.Signature):
+ """Write a simple search query that will help answer a complex question."""
+
+ context = dspy.InputField(desc="may contain relevant facts")
+ question = dspy.InputField()
+ query = dspy.OutputField(dtype=dspy.SearchQuery)
+ ```
 ## [MIPRO](https://dspy.ai/)
 
 ## [GEPA](https://github.com/gepa-ai/gepa-artifact)
