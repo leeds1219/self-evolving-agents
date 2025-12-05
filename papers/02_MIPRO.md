@@ -58,9 +58,9 @@ Output: Optimized version of Φ
 
 M.Initialize(D, θ) ▷ Initialize optimizer using the data
 for k ← 1 to I do
-    (V → S_k) ←M.Propose(θ) ▷Generate proposal
+    (V → S_k) ←M.Propose(θ) ▷Generate proposal (need to minimize)
     D_k ←{(x_j,x′_j) ∼ D}^B_j=1 ▷ Sample size-B batch
-    σ ← 1/B Sum_{(x,x′)∈D_k} µ(Φ_{V→S_k}(x),x′) ▷ Validate updated program
+    σ ← 1/B Sum_{(x,x′)∈D_k} µ(Φ_{V→S_k}(x),x′) ▷ Validate updated program (need to minimize)
     M.Update(V → S_k, σ) ▷Update optimizer based on the observed validation score
 end for
 (V → S_k) ←M.ExtractOptimizedSets()
@@ -83,7 +83,12 @@ The high-level goal is to find a total assignment V → S that optimizes Φ with
 (v) small budgets of LM calls for evaluating Φ
 
 ### Designing LM Program Optimizers
+
 ![Task](figures/Bootstrap_Random_Search.png)
+
+In Step1, demonstrations are bootstrapped by running training inputs through the program Φ and keeping traces that produce sufficiently high scoring outputs, as judged by metric µ. 
+
+In Step2, these bootstrapped demonstration sets are searched over using random search, and the most performant set is returned.
 
 ![Task](figures/Module_Level_OPRO.png)
 
