@@ -6,7 +6,8 @@ The authors seek to efficiently optimize prompts in arbitrary LM programs, espec
 
 ### **What is Language Model Program?**
 
-A Language Model Program is software that separates Control Flow (Python code) from Model Parameters (Prompts & Demonstrations). It treats LLM calls as modular, trainable functions rather than static text strings.
+A Language Model Program is software that separates Control Flow (Python code) from Model Parameters (Prompts & Demonstrations). 
+It treats LLM calls as modular, trainable functions rather than static text strings.
 
 #### 1. THE PROGRAM (Logic)
 ```
@@ -27,7 +28,7 @@ class RAG_Program(dspy.Module):
             
         return self.answer(context=context, question=question)
 ```
-#### 2. THE OPTIMIZER (MIPRO)
+#### 2. THE OPTIMIZER (MIPRO: Multi-prompt Instruction PRoposal Optimizer)
 ```
 # The "Compiler" that tunes the prompts automatically.
 # It treats instructions like weights in a neural network.
